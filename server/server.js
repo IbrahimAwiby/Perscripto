@@ -21,21 +21,6 @@ await connectDB();
 
 // ! middlewares
 app.use(express.json());
-const allowedOrigins = [process.env.CLIENT_URL, process.env.ADMIN_URL];
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  }),
-);
 
 // ! api endpoints
 app.get("/", (req, res) => {
@@ -55,6 +40,5 @@ app.use("/api/doctor/dashboard", doctorDashboardRouter);
 // ! Error handler
 app.use(notFound);
 app.use(errorHandler);
-
 
 export default app;
