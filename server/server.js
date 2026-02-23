@@ -17,10 +17,13 @@ import doctorDashboardRouter from "./routes/doctorDashboardRouter.js";
 // ! app config
 const app = express();
 const PORT = process.env.PORT || 5000;
-connectDB();
 
 // ! middlewares
 app.use(express.json());
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
 // ! api endpoints
 app.get("/", (req, res) => {
