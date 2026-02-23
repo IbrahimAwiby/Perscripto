@@ -1,4 +1,3 @@
-// server.js or app.js
 import express from "express";
 import "dotenv/config";
 import cors from "cors";
@@ -18,13 +17,25 @@ import doctorDashboardRouter from "./routes/doctorDashboardRouter.js";
 // ! app config
 const app = express();
 const PORT = process.env.PORT || 5000;
-
-// Connect to MongoDB once at startup (not on every request)
-connectDB().catch(console.error);
+await connectDB();
 
 // ! middlewares
 app.use(express.json());
-app.use(cors());
+const allowedOrigins = [process.env.CLIENT_URL, process.env.ADMIN_URL];
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  }),
+);
 
 // ! api endpoints
 app.get("/", (req, res) => {
@@ -45,12 +56,11 @@ app.use("/api/doctor/dashboard", doctorDashboardRouter);
 app.use(notFound);
 app.use(errorHandler);
 
-// For local development
+// ! Start app
 if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT} 🚀`);
+    console.log(`Server running on port http://localhost:${PORT} 🚀`);
   });
 }
 
-// Export for Vercel serverless
 export default app;

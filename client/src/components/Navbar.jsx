@@ -276,7 +276,13 @@ const Navbar = () => {
 
           {/* Mobile User Info (if logged in) */}
           {token && userData && (
-            <div className="mt-4 flex items-center gap-3">
+            <div
+              onClick={() => {
+                navigate("/myprofile");
+                setShowMenu(false);
+              }}
+              className="mt-4 flex items-center gap-3 cursor-pointer"
+            >
               <img
                 className="w-14 h-14 rounded-full border-2 border-white object-cover"
                 src={userData?.image || "https://via.placeholder.com/150"}

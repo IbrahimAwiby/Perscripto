@@ -2,7 +2,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AdminContext } from "../context/AdminContext";
 import { DoctorContext } from "../context/DoctorContext";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import {
   FaHome,
@@ -30,6 +30,7 @@ const Sidebar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [doctorData, setDoctorData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const isAdmin = !!aToken;
   const isDoctor = !!dToken;
@@ -307,7 +308,8 @@ const Sidebar = () => {
             {/* User Profile with Image */}
             <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-white">
               <div
-                className={`flex items-center ${
+                onClick={() => navigate("/doctor-profile")}
+                className={`flex items-center cursor-pointer ${
                   collapsed ? "justify-center" : "gap-3"
                 }`}
               >
