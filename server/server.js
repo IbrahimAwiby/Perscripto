@@ -56,11 +56,5 @@ app.use("/api/doctor/dashboard", doctorDashboardRouter);
 app.use(notFound);
 app.use(errorHandler);
 
-// ! Start app
-if (process.env.NODE_ENV !== "production") {
-  app.listen(PORT, () => {
-    console.log(`Server running on port http://localhost:${PORT} 🚀`);
-  });
-}
 
 export default app;
